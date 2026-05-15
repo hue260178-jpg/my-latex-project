@@ -1,0 +1,282 @@
+\documentclass[12pt, a4paper, landscape]{article}
+
+% ====== TỐI ƯU HÓA DIỆN TÍCH & AUTO-LAYOUT ======
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage[version=4]{mhchem} 
+\usepackage[
+  a4paper, landscape,
+  top=8mm, bottom=8mm,   
+  left=8mm, right=8mm,   
+  headsep=0pt, footskip=0pt
+]{geometry}
+
+% KHAI BÁO TIKZ & CÁC THƯ VIỆN AUTO-LAYOUT (MINIMALIST MODE)
+\usepackage{tikz}`
+\usetikzlibrary{calc, positioning, arrows.meta, intersections}
+\usepackage{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{enumitem} 
+
+% ====== NÂNG CẤP TYPOGRAPHY CAO CẤP ======
+\usepackage{mathpazo} 
+\usepackage[scaled=0.92]{helvet} 
+
+% ====== CẤU HÌNH TCOLORBOX TỐI GIẢN (FLAT DESIGN, NO SHADOW) ======
+\tcbset{
+  base_box/.style={
+    boxsep=2pt, left=8pt, right=8pt, top=4pt, bottom=4pt,
+    sharp corners, boxrule=0.8pt,
+    fonttitle=\large\bfseries\sffamily, coltitle=black,
+    toptitle=4pt, bottomtitle=4pt
+  },
+  question_box/.style={
+    base_box, colframe=black!80, colback=white, colbacktitle=black!10,
+    title={\faQuestionCircle\quad #1}
+  },
+  visual_box/.style={
+    base_box, colframe=blue!70!black, colback=white, colbacktitle=blue!5,
+    valign=center,
+    title={\faProjectDiagram\quad #1}
+  },
+  solution_box/.style={
+    base_box, colframe=green!60!black, colback=white, colbacktitle=green!5,
+    valign=top,
+    title={\faPen\quad #1}
+  }
+}
+
+\newlength{\boxheight}
+
+\begin{document}
+\renewcommand{\baselinestretch}{1.3}\selectfont 
+
+% =======================================================
+% ===== TRANG 1: CÂU 1 (ĐƯỜNG THẲNG CÁCH ĐỀU) ===========
+% =======================================================
+\enlargethispage{2.5cm}
+\begin{tcolorbox}[question_box={ĐỀ SỐ 01 - PHẦN IV - CÂU 1 (TRANG 1/3)}]
+\small
+\textbf{Câu 1:} Cho ba điểm $A(2;0), B(3;4)$ và $P(1;1)$. Viết phương trình đường thẳng đi qua $P$ đồng thời cách đều $A$ và $B$.
+\end{tcolorbox}
+
+\setlength{\boxheight}{0.65\textheight} 
+\vspace{2pt} 
+
+\noindent
+\begin{minipage}[t]{0.45\textwidth}
+\begin{tcolorbox}[visual_box={MÔ HÌNH HÌNH HỌC TRỰC QUAN}, height=\boxheight]
+\begin{center}
+% TIKZ NATIVE: VẼ CHUẨN TỌA ĐỘ, ĐÁNH DẤU VUÔNG GÓC, KHÔNG TRÀN
+\begin{tikzpicture}[scale=1.2, >=Stealth, thick]
+  % Các điểm cơ sở
+  \coordinate (A) at (2,0);
+  \coordinate (B) at (3,4);
+  \coordinate (P) at (1,1);
+  \coordinate (M) at (2.5,2); % Trung điểm AB
+  
+  % Vẽ đoạn AB và M
+  \draw[black!60, line width=1pt] (A) -- (B);
+  \fill[black] (A) circle (1.5pt) node[below right] {$A(2;0)$};
+  \fill[black] (B) circle (1.5pt) node[above right] {$B(3;4)$};
+  \fill[black] (M) circle (1.5pt) node[right] {$M$};
+  \fill[black] (P) circle (1.5pt) node[above left] {$P(1;1)$};
+  
+  % TRƯỜNG HỢP 1: d1 // AB
+  \coordinate (D1_1) at (0, -3);
+  \coordinate (D1_2) at (1.5, 3);
+  \draw[red, line width=1.2pt] ($(P)!-1!(D1_2)$) -- ($(P)!1.5!(D1_2)$) node[above right] {$d_1 \parallel AB$};
+  
+  % Hạ vuông góc d1
+  \coordinate (H1A) at ($(P)!(A)!(D1_2)$);
+  \coordinate (H1B) at ($(P)!(B)!(D1_2)$);
+  \draw[red, dashed] (A) -- (H1A);
+  \draw[red, dashed] (B) -- (H1B);
+  
+  % Ký hiệu vuông góc H1A, H1B
+  \draw[red, thin] ($(H1A)!3mm!(A)$) -- ($($(H1A)!3mm!(A)$)+($(H1A)!3mm!(D1_2)$)-(H1A)$) -- ($(H1A)!3mm!(D1_2)$);
+  \draw[red, thin] ($(H1B)!3mm!(B)$) -- ($($(H1B)!3mm!(B)$)+($(H1B)!3mm!(P)$)-(H1B)$) -- ($(H1B)!3mm!(P)$);
+  
+  % TRƯỜNG HỢP 2: d2 đi qua M
+  \draw[blue, line width=1.2pt] ($(P)!-0.5!(M)$) -- ($(P)!1.8!(M)$) node[right] {$d_2$ qua $M$};
+  
+  % Hạ vuông góc d2
+  \coordinate (H2A) at ($(P)!(A)!(M)$);
+  \coordinate (H2B) at ($(P)!(B)!(M)$);
+  \draw[blue, dashed] (A) -- (H2A);
+  \draw[blue, dashed] (B) -- (H2B);
+  
+  % Ký hiệu vuông góc H2A, H2B
+  \draw[blue, thin] ($(H2A)!3mm!(A)$) -- ($($(H2A)!3mm!(A)$)+($(H2A)!3mm!(M)$)-(H2A)$) -- ($(H2A)!3mm!(M)$);
+  \draw[blue, thin] ($(H2B)!3mm!(B)$) -- ($($(H2B)!3mm!(B)$)+($(H2B)!3mm!(P)$)-(H2B)$) -- ($(H2B)!3mm!(P)$);
+
+  % Nhãn lý thuyết
+  \node[font=\bfseries\footnotesize, draw=black!60, fill=white, inner sep=4pt] at (1, -1) { 2 Trường hợp: $\begin{cases} d \parallel AB \\ d \text{ qua trung điểm } M \end{cases}$ };
+\end{tikzpicture}
+\end{center}
+\end{tcolorbox}
+\end{minipage}%
+\hspace{0.02\textwidth}% 
+\begin{minipage}[t]{0.53\textwidth}
+\begin{tcolorbox}[solution_box={BÓC TÁCH LỜI GIẢI}, height=\boxheight]
+\small
+\textbf{\textsf{$\blacktriangleright$ Lời giải chi tiết:}}
+\begin{itemize}[leftmargin=*, itemsep=4pt, parsep=0pt, topsep=2pt]
+    \item Gọi đường thẳng cần tìm là $d$ đi qua $P(1;1)$. Yêu cầu $d$ cách đều hai điểm $A$ và $B$, tức là $d(A, d) = d(B, d)$. Xét hai trường hợp hình học:
+    
+    \item \textbf{Trường hợp 1: Đường thẳng $d$ song song với $AB$.}
+    \begin{itemize}
+        \item Đường thẳng $d_1$ nhận vectơ $\vec{AB} = (3 - 2; 4 - 0) = (1; 4)$ làm vectơ chỉ phương.
+        \item Suy ra vectơ pháp tuyến của $d_1$ là $\vec{n}_1 = (4; -1)$.
+        \item Phương trình tổng quát của $d_1$ đi qua $P(1;1)$:
+        $$ 4(x - 1) - 1(y - 1) = 0 \iff \mathbf{4x - y - 3 = 0} $$
+    \end{itemize}
+    
+    \item \textbf{Trường hợp 2: Đường thẳng $d$ đi qua trung điểm $M$ của $AB$.}
+    \begin{itemize}
+        \item Tọa độ trung điểm $M$ của $AB$ là: $M\left(\frac{2+3}{2}; \frac{0+4}{2}\right) \implies M\left(\frac{5}{2}; 2\right)$.
+        \item Đường thẳng $d_2$ đi qua $P(1;1)$ và $M\left(\frac{5}{2}; 2\right)$, nhận $\vec{PM} = \left(\frac{3}{2}; 1\right)$ làm vectơ chỉ phương.
+        \item Chọn vectơ chỉ phương $\vec{u} = 2\vec{PM} = (3; 2) \implies$ Vectơ pháp tuyến $\vec{n}_2 = (2; -3)$.
+        \item Phương trình tổng quát của $d_2$ đi qua $P(1;1)$:
+        $$ 2(x - 1) - 3(y - 1) = 0 \iff \mathbf{2x - 3y + 1 = 0} $$
+    \end{itemize}
+    \item \textbf{Kết luận:} Có hai phương trình đường thẳng thỏa mãn là $4x - y - 3 = 0$ và $2x - 3y + 1 = 0$.
+\end{itemize}
+\end{tcolorbox}
+\end{minipage}
+
+% >>> TỰ ĐỘNG CHUYỂN TRANG <<<
+\newpage
+
+% =======================================================
+% ===== TRANG 2: CÂU 2 (TỐI ƯU HÓA DIỆN TÍCH & CHI PHÍ) =
+% =======================================================
+\enlargethispage{2.5cm}
+\begin{tcolorbox}[question_box={ĐỀ SỐ 01 - PHẦN IV - CÂU 2 (TRANG 2/3)}]
+\small
+\textbf{Câu 2:} Ông Hà có một khu vườn hình vuông diện tích $2100\text{m}^2$. Ông muốn chia làm ba phần: hai phần đường tròn tâm $B$ và $C$ dùng để trồng hoa, phần tô đậm (hình vành khuyên khép kín) dùng để trồng cỏ, phần còn lại lát gạch. Biết chi phí: trồng cỏ 100 nghìn đồng/$\text{m}^2$, trồng hoa 1 triệu đồng/$\text{m}^2$, lát gạch 300 nghìn đồng/$\text{m}^2$. Khi diện tích phần trồng hoa là nhỏ nhất thì tổng chi phí thi công vườn hết bao nhiêu triệu đồng?
+\end{tcolorbox}
+
+\setlength{\boxheight}{0.65\textheight} 
+\vspace{2pt} 
+
+\noindent
+\begin{minipage}[t]{0.45\textwidth}
+\begin{tcolorbox}[visual_box={SƠ ĐỒ TƯ DUY TỐI ƯU HÓA}, height=\boxheight]
+\begin{center}
+% TIKZ SIÊU NHẸ: FLOWCHART
+\begin{tikzpicture}[
+  font=\normalsize\bfseries, >=Stealth, node distance=0.6cm,
+  box/.style={draw=black!60, thick, fill=blue!5, align=center, text width=0.85\linewidth, inner sep=6pt}
+]
+  \node[box] (1) { Đặt bán kính đ.tròn $B$ là $x$ ($x>0$) \\ Bán kính đ.tròn $C$ là $(5-x)$ \\ (Đường kính khung bao là $10 \implies R=5$) };
+  
+  \node[box, fill=orange!5, below=of 1] (2) { $S_{\text{hoa}} = \pi x^2 + \pi(5-x)^2$ \\ $= \pi [2x^2 - 10x + 25]$ \\ $\implies (S_{\text{hoa}})_{\min} = \frac{25\pi}{2} \ \ (\text{khi } x = 2.5)$ };
+
+  \node[box, fill=yellow!10, below=of 2] (3) { $S_{\text{cỏ}} = S_{\text{khung}} - S_{\text{hoa}}$ \\ $S_{\text{cỏ}} = 25\pi - \frac{25\pi}{2} = \frac{25\pi}{2}$ \\ $S_{\text{gạch}} = S_{\text{vuông}} - 25\pi = 2100 - 25\pi$ };
+
+  \node[box, fill=green!5, draw=green!60!black, below=of 3] (4) { Lập hàm chi phí (Đơn vị: Triệu VNĐ): \\ $T = 1.0 \cdot S_{\text{hoa}} + 0.1 \cdot S_{\text{cỏ}} + 0.3 \cdot S_{\text{gạch}}$ };
+
+  \node[box, draw=red!80, fill=white, below=of 4] (5) { Thay số: \\ $T = \frac{25\pi}{2} + 0.1\frac{25\pi}{2} + 0.3(2100 - 25\pi)$ \\ $\mathbf{T \approx 649,63 \text{ Triệu đồng}}$ };
+
+  \draw[->, thick] (1) -- (2);
+  \draw[->, thick] (2) -- (3);
+  \draw[->, thick] (3) -- (4);
+  \draw[->, thick] (4) -- (5);
+\end{tikzpicture}
+\end{center}
+\end{tcolorbox}
+\end{minipage}%
+\hspace{0.02\textwidth}% 
+\begin{minipage}[t]{0.53\textwidth}
+\begin{tcolorbox}[solution_box={BÓC TÁCH LỜI GIẢI}, height=\boxheight]
+\small
+\textbf{\textsf{$\blacktriangleright$ Lời giải chi tiết:}}
+\begin{itemize}[leftmargin=*, itemsep=4pt, parsep=0pt, topsep=2pt]
+    \item Gọi $x$ (m) là bán kính đường tròn tâm $B$ ($x > 0$). Từ cấu trúc hình học tiếp xúc, bán kính đường tròn tâm $C$ là $5 - x$. (Đường tròn bao ngoài chứa cỏ có bán kính $R = 5$).
+    \item Diện tích phần trồng hoa (hai đường tròn nhỏ):
+    $$ S_{\text{hoa}} = \pi x^2 + \pi(5-x)^2 = \pi [2x^2 - 10x + 25] $$
+    $$ S_{\text{hoa}} = \pi \left[ 2\left(x - \frac{5}{2}\right)^2 + \frac{25}{2} \right] \ge \frac{25\pi}{2} $$
+    \item Dấu "=" xảy ra khi $x = 2,5$. Khi đó diện tích phần trồng hoa nhỏ nhất là $S_{\text{hoa}} = \frac{25\pi}{2} \ (\text{m}^2)$.
+    \item Diện tích khung tròn bao bên ngoài là $S_{\text{khung}} = \pi \cdot 5^2 = 25\pi$. Diện tích trồng cỏ là:
+    $$ S_{\text{cỏ}} = S_{\text{khung}} - S_{\text{hoa}} = 25\pi - \frac{25\pi}{2} = \frac{25\pi}{2} \ (\text{m}^2) $$
+    \item Diện tích hình vuông là $2100\text{m}^2$. Diện tích lát gạch là:
+    $$ S_{\text{gạch}} = 2100 - S_{\text{khung}} = 2100 - 25\pi \ (\text{m}^2) $$
+    \item Tổng chi phí (đơn vị: triệu đồng) khi $S_{\text{hoa}}$ nhỏ nhất:
+    $$ T = 1 \cdot S_{\text{hoa}} + 0,1 \cdot S_{\text{cỏ}} + 0,3 \cdot S_{\text{gạch}} $$
+    $$ T = \frac{25\pi}{2} + 0,1 \cdot \frac{25\pi}{2} + 0,3 \cdot (2100 - 25\pi) $$
+    $$ T = 12,5\pi + 1,25\pi + 630 - 7,5\pi = 630 + 6,25\pi \approx 649,635 $$
+    \item \textbf{Kết luận:} Chi phí thi công vườn hết khoảng $\mathbf{649,63}$ triệu đồng.
+\end{itemize}
+\end{tcolorbox}
+\end{minipage}
+
+% >>> TỰ ĐỘNG CHUYỂN TRANG <<<
+\newpage
+
+% =======================================================
+% ===== TRANG 3: CÂU 3 (XÁC SUẤT PHƯƠNG TRÌNH) ==========
+% =======================================================
+\enlargethispage{2.5cm}
+\begin{tcolorbox}[question_box={ĐỀ SỐ 01 - PHẦN IV - CÂU 3 (TRANG 3/3)}]
+\small
+\textbf{Câu 3:} Gieo một con xúc xắc cân đối và đồng chất. Giả sử con xúc xắc xuất hiện mặt $b$ chấm. Tính xác suất sao cho phương trình $x^2 - bx + b - 1 = 0$ (với $x$ là ẩn số) có nghiệm lớn hơn 3.
+\end{tcolorbox}
+
+\setlength{\boxheight}{0.65\textheight} 
+\vspace{2pt} 
+
+\noindent
+\begin{minipage}[t]{0.45\textwidth}
+\begin{tcolorbox}[visual_box={SƠ ĐỒ TƯ DUY (MINIMALIST)}, height=\boxheight]
+\begin{center}
+% TIKZ SIÊU NHẸ: CHỐNG TRÀN TỰ NHIÊN
+\begin{tikzpicture}[
+  font=\normalsize\bfseries, >=Stealth, node distance=0.8cm,
+  box/.style={draw=black!60, thick, fill=blue!5, align=center, text width=0.85\linewidth, inner sep=6pt}
+]
+  \node[box] (1) { Gieo xúc xắc 1 lần \\ Không gian mẫu: $\Omega = \{1,2,3,4,5,6\}$ \\ $\implies \mathbf{n(\Omega) = 6}$ };
+  
+  \node[box, fill=orange!5, below=of 1] (2) { Xét phương trình bậc hai: \\ $x^2 - bx + b - 1 = 0$ \\ Nhẩm nghiệm: Tổng hệ số bằng 0 };
+
+  \node[box, fill=yellow!10, below=of 2] (3) { $A + B + C = 1 - b + b - 1 = 0$ \\ $\implies \left[\begin{matrix} x_1 = 1 \\ x_2 = b - 1 \end{matrix}\right.$ };
+
+  \node[box, fill=green!5, draw=green!60!black, below=of 3] (4) { Yêu cầu: Phương trình có nghiệm $> 3$ \\ Do $x_1 = 1 < 3$ \\ $\implies x_2 = b - 1 > 3 \implies \mathbf{b > 4}$ };
+
+  \node[box, draw=red!80, fill=white, below=of 4] (5) { Xúc xắc có chấm $b \in \{1..6\}$ \\ $\implies b \in \{5, 6\} \implies n(A) = 2$ \\ $\mathbf{P(A) = \frac{2}{6} = \frac{1}{3}}$ };
+
+  \draw[->, thick] (1) -- (2);
+  \draw[->, thick] (2) -- (3);
+  \draw[->, thick] (3) -- (4);
+  \draw[->, thick] (4) -- (5);
+\end{tikzpicture}
+\end{center}
+\end{tcolorbox}
+\end{minipage}%
+\hspace{0.02\textwidth}% 
+\begin{minipage}[t]{0.53\textwidth}
+\begin{tcolorbox}[solution_box={BÓC TÁCH LỜI GIẢI}, height=\boxheight]
+\small
+\textbf{\textsf{$\blacktriangleright$ Lời giải chi tiết:}}
+\begin{itemize}[leftmargin=*, itemsep=4pt, parsep=0pt, topsep=2pt]
+    \item Phép thử: Gieo một con xúc xắc cân đối, đồng chất 1 lần.
+    \item Không gian mẫu là tập hợp các số chấm có thể xuất hiện của con xúc xắc: 
+    $$ \Omega = \{1; 2; 3; 4; 5; 6\} \implies n(\Omega) = 6 $$
+    \item Xét phương trình bậc hai theo ẩn $x$:
+    $$ x^2 - bx + b - 1 = 0 $$
+    \item Ta nhận thấy tổng các hệ số của phương trình bằng $0$:
+    $$ A + B + C = 1 + (-b) + (b - 1) = 0 $$
+    \item Theo định lí Vi-ét (trường hợp nhẩm nghiệm đặc biệt), phương trình luôn có 2 nghiệm:
+    $$ \left[\begin{matrix} x_1 = 1 \\ x_2 = \frac{C}{A} = b - 1 \end{matrix}\right. $$
+    \item Theo yêu cầu bài toán, phương trình phải có nghiệm lớn hơn 3. Vì nghiệm thứ nhất $x_1 = 1 < 3$, nên để phương trình có nghiệm lớn hơn 3 thì nghiệm thứ hai bắt buộc phải thỏa mãn:
+    $$ x_2 > 3 \iff b - 1 > 3 \iff b > 4 $$
+    \item Do $b$ là số chấm trên mặt xúc xắc nên $b \in \mathbb{N}$ và $1 \le b \le 6$. 
+    \item Suy ra các giá trị thỏa mãn của $b$ là $b \in \{5; 6\}$.
+    \item Vậy số phần tử của biến cố $A$ là $n(A) = 2$.
+    \item Xác suất cần tìm là: $P(A) = \frac{n(A)}{n(\Omega)} = \frac{2}{6} = \mathbf{\frac{1}{3}}$.
+\end{itemize}
+\end{tcolorbox}
+\end{minipage}
+
+\end{document}
